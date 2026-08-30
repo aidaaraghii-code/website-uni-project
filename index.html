@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Iran Landmarks & Cultural Heritage — a student project introducing Persepolis, Isfahan, Shiraz, Golestan Palace and Yazd." />
+  <title>Iran Landmarks &amp; Cultural Heritage — Home</title>
+  <!-- Fonts: shadcn's default "Geist" family -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===================== HEADER (same on every page) =================== -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-title">Iran Landmarks</span>
+        <span class="brand-subtitle">Cultural Heritage Project</span>
+      </a>
+
+      <!-- Navigation to all 10 pages -->
+      <nav class="nav" aria-label="Main navigation">
+        <a href="about.html">About</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle" type="button" aria-expanded="false" aria-haspopup="true">Landmarks <svg class="nav-caret" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+          <div class="nav-dropdown-menu">
+            <a href="persepolis.html">Persepolis</a>
+            <a href="isfahan.html">Isfahan</a>
+            <a href="shiraz.html">Shiraz</a>
+            <a href="golestan.html">Tehran</a>
+            <a href="yazd.html">Yazd</a>
+          </div>
+        </div>
+        <a href="gallery.html">Gallery</a>
+        <a href="faq.html">FAQ</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ======================= WELCOME HERO ============================== -->
+    <section class="hero">
+      <div class="container">
+        <h1>Iran's Landmarks &amp; Cultural Heritage</h1>
+        <p>
+          Iran is home to one of the world's oldest civilizations. From the
+          stone columns of Persepolis to the turquoise domes of Isfahan, its
+          palaces, gardens and desert cities have been shaping history for more
+          than 2,500 years.
+        </p>
+        <div class="buttons">
+          <a class="button button--primary button--lg" href="gallery.html">Explore the landmarks</a>
+        </div>
+
+        <div class="hero-cards">
+          <a class="hero-card" href="persepolis.html">
+            <img src="https://images.unsplash.com/photo-1654849476646-b23bd8597bae?w=900&q=80&auto=format&fit=crop" alt="Standing columns of Persepolis" />
+            <svg class="hero-card-arrow" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+            <div class="hero-card-label">
+              <strong>Ancient Persia</strong>
+              <span>Persepolis</span>
+            </div>
+          </a>
+
+          <a class="hero-card" href="isfahan.html">
+            <img src="https://images.unsplash.com/photo-1761919236886-d9f186720ed1?w=900&q=80&auto=format&fit=crop" alt="Naqsh-e Jahan square in Isfahan" />
+            <svg class="hero-card-arrow" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+            <div class="hero-card-label">
+              <strong>Islamic art &amp; tilework</strong>
+              <span>Isfahan</span>
+            </div>
+          </a>
+
+          <a class="hero-card" href="yazd.html">
+            <img src="https://images.unsplash.com/photo-1740849895029-a4d9b5e92e9c?w=900&q=80&auto=format&fit=crop" alt="Adobe houses in Yazd's old town" />
+            <svg class="hero-card-arrow" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+            <div class="hero-card-label">
+              <strong>Desert cities</strong>
+              <span>Yazd</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== OVERVIEW SECTION ============================ -->
+    <section>
+      <div class="container center">
+        <span class="eyebrow">Why these five?</span>
+        <h2>A short journey across Iran</h2>
+        <p class="center" style="color: var(--muted-foreground); max-width: 700px; margin: 0 auto 12px;">
+          Each landmark page covers three things: the history of the site, what
+          makes its architecture special, and a few key facts. Three of the five
+          sites are UNESCO World Heritage locations.
+        </p>
+      </div>
+    </section>
+
+    <!-- ====================== CLOSING CALL-TO-ACTION ===================== -->
+    <section>
+      <div class="container center" style="max-width: 620px;">
+        <h2>Have questions?</h2>
+        <p>
+          Check the quick FAQ about visiting and studying these sites, or send
+          us a message through the contact form.
+        </p>
+        <div class="buttons" style="justify-content: center;">
+          <a class="button button--primary" href="faq.html">Read the FAQ</a>
+          <a class="button button--secondary" href="contact.html">Contact us</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== FOOTER (same on every page) =================== -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>Made by Aida &copy; <span id="year">2026</span></p>
+    </div>
+  </footer>
+
+  <!-- Small shared script: FAQ accordion, contact form, footer year -->
+  <script src="main.js" defer></script>
+</body>
+</html>

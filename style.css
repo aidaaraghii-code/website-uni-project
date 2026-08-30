@@ -1,0 +1,808 @@
+/* ==========================================================================
+   IRAN LANDMARKS & CULTURAL HERITAGE — style.css
+   --------------------------------------------------------------------------
+   A single stylesheet shared by all 10 pages.
+
+   It follows the "shadcn / ui" design system:
+   • Every color is stored in CSS variables (tokens) in :root, with names
+     like --background, --foreground, --primary, --ring, --radius...
+   • Components (button, card, input, accordion, badge) are built from those
+     tokens, so you can re-theme the whole site by editing a few lines.
+   • Visual flavor: clean white background, turquoise accents,
+      gold highlights — inspired by Persian art and the tiles of Isfahan.
+
+   File map:
+     1. Design tokens           (:root CSS variables)
+     2. Base styles             (reset, body, headings, links, container)
+     3. Button                  (shadcn-style variants)
+     4. Card                    (bordered/shadowed surfaces)
+     5. Badge                   (small category labels)
+     6. Header & navigation
+     7. Hero sections           (home hero + subpage banner)
+     8. Layout helpers          (two-column, grids, facts box)
+     9. Gallery                 (photo grid with captions)
+     10. Accordion (FAQ)
+     11. Form                    (inputs, labels, success message)
+     12. Footer
+     13. Small responsive rules
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. DESIGN TOKENS
+   The whole color scheme lives here. Like shadcn, we use oklch() colors
+   (modern, readable) but with a warm Persian-inspired palette.
+   -------------------------------------------------------------------------- */
+:root {
+  /* Base surfaces */
+  --background:         oklch(1 0 0);            /* white page background      */
+  --foreground:         oklch(0.30 0.04 160);    /* deep green-black text      */
+
+  /* Cards and panels */
+  --card:               oklch(1 0 0);
+  --card-foreground:    oklch(0.30 0.04 160);
+
+  /* Primary action color — turquoise */
+  --primary:            oklch(0.55 0.12 190);
+  --primary-foreground: oklch(0.985 0.005 90);
+
+  /* Secondary / softer surface — warm sand */
+  --secondary:          oklch(0.945 0.02 85);
+  --secondary-foreground: oklch(0.30 0.04 160);
+
+  /* Muted text and panels */
+  --muted:              oklch(0.93 0.015 80);
+  --muted-foreground:   oklch(0.55 0.03 90);
+
+  /* Accent (turquoise) for highlights in cards/FAQ */
+  --accent:             oklch(0.60 0.11 190);
+  --accent-foreground:  oklch(0.32 0.07 190);
+
+  /* Destructive (error) red */
+  --destructive:        oklch(0.60 0.19 27);
+
+  /* Wait; gold used for special highlights like brand and badges */
+  --gold:               oklch(0.75 0.11 75);
+  --gold-foreground:    oklch(0.25 0.03 90);
+
+  /* Lines, inputs and focus rings */
+  --border:             oklch(0.90 0.015 85);
+  --input:              oklch(0.88 0.015 85);
+  --ring:               oklch(0.55 0.12 190);
+
+  /* Shape and elevation (copied from shadcn defaults) */
+  --radius: 0.5rem;                                 /* border radius for cards   */
+  --shadow-sm: 0 1px 2px rgba(16, 24, 20, 0.06);
+  --shadow-md: 0 4px 12px rgba(16, 24, 20, 0.10);
+
+  --content-width: 1060px;                          /* max width of page content */
+
+  /* Typography — shadcn's default font family is "Geist" (by Vercel).
+     It is loaded from Google Fonts on each page; if the visitor is offline
+     the fallback system fonts below are used instead. */
+  --font-sans: "Geist", Tahoma, Verdana, "Segoe UI", Arial, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/* --------------------------------------------------------------------------
+   2. BASE STYLES
+   -------------------------------------------------------------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Every text on the site uses Geist: setting the font on the <html> root
+   means every element inherits it, even elements that forget to specify
+   their own (buttons, inputs, captions, headings...). */
+html {
+  font-family: var(--font-sans);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  line-height: 1.7;
+}
+
+/* Headings share the same Geist font as everything else (shadcn style) */
+h1, h2, h3 {
+  color: var(--foreground);
+  line-height: 1.25;
+  margin-bottom: 12px;
+}
+
+h1 { font-size: 2.4rem; }
+h2 { font-size: 1.7rem; }
+h3 { font-size: 1.2rem; }
+
+p { margin-bottom: 12px; }
+
+a { color: var(--primary); }
+
+ul, ol { padding-left: 22px; }
+
+/* Code snippets also use the regular Geist font, so the whole site stays
+   visually consistent (mono is still available as --font-mono if needed). */
+code {
+  font-size: 0.9em;
+  background: var(--secondary);
+  border-radius: 4px;
+  padding: 0 4px;
+}
+
+/* .container centers content and limits its width */
+.container {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Sections naturally have breathing room */
+section { padding: 44px 0; }
+
+/* Focus ring — the same visible outline on every focusable element,
+   following the shadcn pattern of a 2px ring in the --ring color. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: calc(var(--radius) / 2);
+}
+
+/* Small decorative eyebrow above titles */
+.eyebrow {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   3. BUTTON — shadcn-style variants
+   Base .button plus modifiers: --primary, --secondary, --outline, --ghost.
+   All share the same focus ring and press feedback.
+   -------------------------------------------------------------------------- */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  padding: 9px 18px;
+  font-family: inherit;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  background: transparent;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+/* Main turquoise on light text */
+.button--primary {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+.button--primary:hover {
+  background: oklch(0.49 0.12 190);
+}
+
+/* Soft sand button */
+.button--secondary {
+  background: var(--secondary);
+  color: var(--secondary-foreground);
+}
+.button--secondary:hover {
+  background: oklch(0.90 0.02 85);
+}
+
+/* Outlined button (ghost with a visible border) */
+.button--outline {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.button--outline:hover {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+/* --------------------------------------------------------------------------
+   4. CARD — a bordered white panel with subtle shadow
+   -------------------------------------------------------------------------- */
+.card {
+  background: var(--card);
+  color: var(--card-foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: 22px;
+}
+
+/* Lucide icon inside feature cards */
+.card-icon {
+  display: inline-flex;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+
+.card h3 { margin-bottom: 8px; }
+.card p  { font-size: 0.93rem; margin-bottom: 0; }
+
+/* Small "button-like" link at the bottom of cards */
+.card-link {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--gold);
+  text-decoration: none;
+}
+.card-link:hover { text-decoration: underline; }
+.card-link svg {
+  vertical-align: -2px;
+  margin-left: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   5. BADGE — small colored label (UNESCO, dates, categories...)
+   -------------------------------------------------------------------------- */
+.badge {
+  display: inline-block;
+  border-radius: 999px;
+  background: var(--muted);
+  color: var(--muted-foreground);
+  border: 1px solid var(--border);
+  padding: 3px 12px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+/* Gold badge reserved for special highlights */
+.badge--gold {
+  background: var(--gold);
+  color: var(--gold-foreground);
+  border-color: var(--gold);
+}
+
+/* --------------------------------------------------------------------------
+   6. HEADER & NAVIGATION
+   A clean bordered header: brand on the left, links on the right.
+   The current page gets a solid gold line underneath; hovering shows
+   a lighter, softer line. That's it — no chips, no boxes.
+   -------------------------------------------------------------------------- */
+.site-header {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.header-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.brand {
+  text-decoration: none;
+  color: var(--foreground);
+}
+
+.brand-title {
+  font-family: var(--font-sans);
+  font-size: 1.1rem;
+  color: var(--primary);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.brand-subtitle {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* Simple pill-free links: just text with a reserved underline slot */
+.nav a {
+  display: inline-block;
+  padding: 8px 12px 10px;
+  color: var(--muted-foreground);
+  text-decoration: none;
+  font-size: 0.88rem;
+  border-bottom: 2px solid transparent;  /* keeps layout stable for the line */
+}
+
+/* Hover: a lighter, softer line under the link */
+.nav a:hover {
+  border-bottom-color: oklch(0.75 0.11 75 / 0.35);  /* faded gold */
+  color: var(--foreground);
+}
+
+/* Current page: a solid gold line under the link */
+.nav a.active {
+  border-bottom-color: var(--gold);
+  color: var(--foreground);
+}
+
+/* "Landmarks" dropdown — one nav item with a small menu of the 5 sites */
+.nav-dropdown {
+  position: relative;
+}
+
+.nav-dropdown-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px 10px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--muted-foreground);
+  font-family: inherit;
+  font-size: 0.88rem;
+  line-height: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.nav-dropdown-toggle:hover {
+  border-bottom-color: oklch(0.75 0.11 75 / 0.35);  /* faded gold */
+  color: var(--foreground);
+}
+
+.nav-dropdown-toggle.active {
+  border-bottom-color: var(--gold);
+  color: var(--foreground);
+}
+
+.nav-caret {
+  width: 12px;
+  height: 12px;
+  opacity: 0.7;
+}
+
+.nav-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 168px;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  padding: 6px;
+  z-index: 60;
+}
+
+.nav-dropdown.open .nav-dropdown-menu {
+  display: flex;
+}
+
+.nav-dropdown-menu a {
+  display: block;
+  padding: 8px 12px;
+  border: none !important;
+  border-radius: calc(var(--radius) / 2);
+  color: var(--muted-foreground);
+  text-decoration: none;
+  font-size: 0.88rem;
+}
+
+.nav-dropdown-menu a:hover {
+  background: var(--muted);
+  color: var(--foreground);
+}
+
+/* --------------------------------------------------------------------------
+   7. HERO SECTIONS
+   The tall welcome banner on Home and the smaller banner on other pages,
+   with a clean white surface in the turquoise + gold palette.
+   -------------------------------------------------------------------------- */
+.hero {
+  position: relative;
+  min-height: 76vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #ffffff;
+  color: var(--foreground);
+  text-align: center;
+  padding: 72px 0;
+}
+
+.hero .container { width: 100%; }
+
+.hero h1 {
+  color: var(--foreground);
+  font-size: clamp(1.9rem, 5vw, 2.9rem);
+  margin-bottom: 14px;
+}
+
+.hero p {
+  max-width: 660px;
+  margin: 0 auto 20px;
+  font-size: 1.05rem;
+  color: var(--muted-foreground);
+}
+
+.hero .buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Larger, fully-rounded CTA button (used in the hero) */
+.button--lg {
+  padding: 13px 30px;
+  font-size: 1rem;
+  border-radius: 999px;
+}
+
+/* --------------------------------------------------------------------------
+   7b. HERO THEME CARDS — three image cards under the hero headline
+   -------------------------------------------------------------------------- */
+.hero-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-top: 54px;
+  text-align: left;
+}
+
+.hero-card {
+  position: relative;
+  display: block;
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none;
+  aspect-ratio: 4 / 3;
+  box-shadow: var(--shadow-md);
+  background: #000;
+}
+
+.hero-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+.hero-card:hover img { transform: scale(1.05); }
+
+.hero-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.55), transparent 55%);
+}
+
+.hero-card-arrow {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #ffffff;
+  color: var(--foreground);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  z-index: 2;
+  transition: transform 0.2s ease;
+}
+
+.hero-card:hover .hero-card-arrow { transform: translate(2px, -2px); }
+
+.hero-card-label {
+  position: absolute;
+  left: 16px;
+  right: 62px;
+  bottom: 18px;
+  z-index: 2;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.hero-card-label strong { font-size: 1.05rem; }
+.hero-card-label span { font-size: 0.85rem; opacity: 0.85; }
+
+/* Smaller banner used on the other 9 pages */
+.page-banner {
+  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+  padding: 48px 24px;
+}
+
+.page-banner h1 {
+  margin-bottom: 6px;
+}
+
+.page-banner p {
+  color: var(--muted-foreground);
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   8. LAYOUT HELPERS
+   -------------------------------------------------------------------------- */
+
+/* Two-column layout: text on one side, picture/facts on the other.
+   Flexbox wraps the halves into a single column on small screens. */
+.two-column {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  align-items: center;
+}
+
+.two-column > div {
+  flex: 1 1 340px;
+}
+
+/* "Key facts" panel — a card with an accent heading */
+.facts { border-left: 4px solid var(--gold); }
+.facts h3 {
+  color: var(--accent);
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+.facts li { font-size: 0.92rem; margin-bottom: 6px; }
+
+/* A row of feature cards on the Home / About pages */
+.card-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.card-row .card { flex: 1 1 240px; }
+
+/* .center helps center text inside a section */
+.center { text-align: center; }
+
+/* Stand-in for a real photo: a soft gradient panel with an emoji.
+   Note each image in the gallery is a real file in /images. */
+.figure {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.figure img {
+  width: 100%;
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   9. GALLERY — responsive photo grid with captions
+   -------------------------------------------------------------------------- */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.gallery-figure {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.gallery-figure img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.gallery-figure a {
+  display: block;
+  overflow: hidden;
+}
+
+.gallery-figure a:hover img { transform: scale(1.05); }
+
+.gallery-figure figcaption {
+  padding: 10px 14px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--muted-foreground);
+}
+
+/* --------------------------------------------------------------------------
+   10. ACCORDION (FAQ)
+   Question buttons stack; the answer panel sits directly under its button.
+   main.js toggles the .open class to reveal the hidden panel.
+   -------------------------------------------------------------------------- */
+.accordion {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.accordion-item {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.accordion-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: none;
+  border: none;
+  padding: 16px 20px;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--foreground);
+  cursor: pointer;
+  text-align: left;
+}
+
+/* The little chevron at the right; rotated 180deg when open */
+.accordion-chevron {
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  color: var(--primary);
+  transition: transform 0.2s ease;
+}
+
+.accordion-item.open .accordion-chevron { transform: rotate(180deg); }
+
+/* The answer panel is collapsed by default via max-height trick,
+   which also animates smoothly. */
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease;
+  padding: 0 20px;
+}
+
+.accordion-content p {
+  padding-bottom: 18px;
+  margin: 0;
+  font-size: 0.94rem;
+  color: var(--muted-foreground);
+}
+
+/* When main.js adds .open, the panel grows to show its text */
+.accordion-item.open .accordion-content {
+  max-height: 400px;
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+}
+
+/* --------------------------------------------------------------------------
+   11. FORM — inputs, labels, success message
+   -------------------------------------------------------------------------- */
+.contact-form {
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.form-group { margin-bottom: 18px; }
+
+.form-label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: 6px;
+}
+
+.form-input {
+  width: 100%;
+  background: var(--card);
+  border: 1px solid var(--input);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--foreground);
+}
+
+.form-input:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 0;
+  border-color: transparent;
+}
+
+textarea.form-input { min-height: 130px; resize: vertical; }
+
+/* Green confirmation box — hidden until main.js adds .show */
+.form-success {
+  display: none;
+  border: 1px solid oklch(0.70 0.15 150);
+  background: oklch(0.97 0.03 150);
+  color: oklch(0.40 0.10 150);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  font-size: 0.92rem;
+  margin-bottom: 18px;
+}
+.form-success.show { display: block; }
+
+/* --------------------------------------------------------------------------
+   12. FOOTER
+   -------------------------------------------------------------------------- */
+.site-footer {
+  background: var(--card);
+  border-top: 1px solid var(--border);
+  margin-top: 24px;
+  padding: 28px 0;
+}
+
+.footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  font-size: 0.88rem;
+  color: var(--muted-foreground);
+}
+
+.footer-inner a { color: var(--gold); text-decoration: none; }
+.footer-inner a:hover { text-decoration: underline; }
+.footer-inner p { margin: 0; }
+
+/* --------------------------------------------------------------------------
+   13. RESPONSIVE RULES
+   Flex/grid layout already wraps by itself; a few final touches only.
+   -------------------------------------------------------------------------- */
+@media (max-width: 640px) {
+  .hero { padding: 48px 0; min-height: auto; }
+  .page-banner { padding: 36px 20px; }
+  h1 { font-size: 1.8rem; }
+  section { padding: 32px 0; }
+  .rosary-links { text-align: center; }
+}

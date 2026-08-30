@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Travel tips and FAQ about visiting and studying Iran's landmarks." />
+  <title>Travel Tips &amp; FAQ — Iran Landmarks</title>
+  <!-- Fonts: shadcn's default "Geist" family -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===================== HEADER (same on every page) =================== -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-title">Iran Landmarks</span>
+        <span class="brand-subtitle">Cultural Heritage Project</span>
+      </a>
+
+      <nav class="nav" aria-label="Main navigation">
+        <a href="about.html">About</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle" type="button" aria-expanded="false" aria-haspopup="true">Landmarks <svg class="nav-caret" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+          <div class="nav-dropdown-menu">
+            <a href="persepolis.html">Persepolis</a>
+            <a href="isfahan.html">Isfahan</a>
+            <a href="shiraz.html">Shiraz</a>
+            <a href="golestan.html">Tehran</a>
+            <a href="yazd.html">Yazd</a>
+          </div>
+        </div>
+        <a href="gallery.html">Gallery</a>
+        <a href="faq.html" class="active">FAQ</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============================ BANNER =============================== -->
+    <section class="page-banner">
+      <div class="container">
+        <h1>Travel tips &amp; FAQ</h1>
+        <p>Simple answers about visiting and studying these sites.</p>
+      </div>
+    </section>
+
+    <!-- ========================= ACCORDION =============================== -->
+    <section>
+      <div class="container">
+        <div class="accordion">
+
+          <!-- Each item is one question + one answer. Clicking the question
+               button toggles the .open class (see main.js and style.css). -->
+          <div class="accordion-item">
+            <button class="accordion-trigger" type="button">
+              What is the best time of year to visit Iran?
+              <span class="accordion-chevron">▾</span>
+            </button>
+            <div class="accordion-content">
+              <p>
+                Spring (March–May) and autumn (September–November) are the most
+                pleasant months. Summers are very hot in the desert cities
+                (Yazd, and even Isfahan), while winters can be cold in Tehran.
+                For this project, the good news is that the sites can be looked
+                up at any time — no plane ticket required!
+              </p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger" type="button">
+              Are these sites really all on the same page worth visiting?
+              <span class="accordion-chevron">▾</span>
+            </button>
+            <div class="accordion-content">
+              <p>
+                Absolutely. Four of the five featured locations are UNESCO World
+                Heritage Sites (Persepolis, Naqsh-e Jahan, Golestan Palace and
+                the historic city of Yazd), and Eram Garden belongs to the
+                UNESCO "Persian Gardens" group. They are among the most
+                celebrated treasures in the country.
+              </p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger" type="button">
+              Do I need a guide to understand these places?
+              <span class="accordion-chevron">▾</span>
+            </button>
+            <div class="accordion-content">
+              <p>
+                Not to enjoy them! Each site has explanatory signs and local
+                guides are widely available. For studying at home, the landmark
+                pages on this website summarize the main ideas in plain
+                language — plenty for a class presentation.
+              </p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger" type="button">
+              What should I know before visiting a mosque?
+              <span class="accordion-chevron">▾</span>
+            </button>
+            <div class="accordion-content">
+              <p>
+                Dress modestly: shoulders and knees covered, and a headscarf for
+                women (taken outside the buildings). Shoes are removed at the
+                entrance. It is always respectful to be quiet inside a place of
+                worship, even when it is crowded with tourists.
+              </p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger" type="button">
+              How do I get from city to city?
+              <span class="accordion-chevron">▾</span>
+            </button>
+            <div class="accordion-content">
+              <p>
+                The classic route is Tehran → Kashan → Isfahan → Shiraz (with
+                Persepolis as a day trip from Shiraz), then north to Yazd.
+                Buses, trains and domestic flights are cheap and reliable.
+                For nomads inside the browser, the navigation bar gets you
+                between all ten pages instantly.
+              </p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger" type="button">
+              Why are so many landmarks UNESCO World Heritage Sites?
+              <span class="accordion-chevron">▾</span>
+            </button>
+            <div class="accordion-content">
+              <p>
+                UNESCO lists sites of "outstanding universal value." Iran
+                currently has more than 20, which reflects both the length of
+                its history and how well many monuments, gardens and cities have
+                survived for millennia. The listing also helps with funding and
+                protection.
+              </p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger" type="button">
+              Can I replace the Unsplash photos with my own pictures?
+              <span class="accordion-chevron">▾</span>
+            </button>
+            <div class="accordion-content">
+              <p>
+                Yes. The images are loaded from Unsplash's CDN via the
+                <code>src</code> attribute of each <code>&lt;img&gt;</code> tag.
+                Take your own pictures or use other freely licensed photos
+                (for example from Wikimedia Commons), then simply change that
+                <code>src</code> to point to your files.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== FOOTER (same on every page) =================== -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>Made by Aida &copy; <span id="year">2026</span></p>
+    </div>
+  </footer>
+
+  <script src="main.js" defer></script>
+</body>
+</html>
